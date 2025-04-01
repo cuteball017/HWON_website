@@ -139,7 +139,9 @@ export default function ProductsPage() {
       const visibleElements = document.querySelectorAll(`.tab-content-${value} .animate-on-scroll`)
       visibleElements.forEach((el) => {
         el.classList.remove("fade-in")
-        void el.offsetWidth // 리플로우 강제
+        if (el instanceof HTMLElement) {
+          const width = el.offsetWidth;
+        }
         el.classList.add("fade-in")
       })
     }, 50)

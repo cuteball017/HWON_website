@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
@@ -25,6 +25,20 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+  
 
   // 페이지 변경 시 모바일 메뉴 닫기
   useEffect(() => {
@@ -68,42 +82,33 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* 모바일 메뉴 */}
       {isOpen && (
-        <div className="fixed inset-0 bg-background z-50 md:hidden">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex justify-between items-center">
-              <Link href="/" className="text-2xl font-playfair font-bold">
-                HWON
-              </Link>
-              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
-                <X className="h-6 w-6" />
-                <span className="sr-only">메뉴 닫기</span>
-              </Button>
-            </div>
-
-            <nav className="flex flex-col space-y-6 mt-12">
-              <Link href="/" className="text-xl font-medium" onClick={() => setIsOpen(false)}>
-                홈
-              </Link>
-              <Link href="/products" className="text-xl font-medium" onClick={() => setIsOpen(false)}>
-                제품
-              </Link>
-              <Link href="/contact" className="text-xl font-medium" onClick={() => setIsOpen(false)}>
-                문의
-              </Link>
-              <Button asChild className="mt-4">
-                <a
-                  href="https://shopping.naver.com/ns/home"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsOpen(false)}
-                >
-                  구매하기
-                </a>
-              </Button>
-            </nav>
+        <div className="fixed top-0 left-0 w-full h-screen bg-background z-[9999] md:hidden">
+          <div className="flex justify-between items-center px-4 py-4">
+            <Link href="/" className="text-2xl font-playfair font-bold">
+              HWON
+            </Link>
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
+              <X className="h-6 w-6" />
+              <span className="sr-only">메뉴 닫기</span>
+            </Button>
           </div>
+
+          <nav className="flex flex-col items-center justify-center h-[calc(100%-80px)] space-y-6 text-xl font-medium">
+            <Link href="/" onClick={() => setIsOpen(false)}>홈</Link>
+            <Link href="/products" onClick={() => setIsOpen(false)}>제품</Link>
+            <Link href="/contact" onClick={() => setIsOpen(false)}>문의</Link>
+            <Button asChild className="mt-4">
+              <a
+                href="https://shopping.naver.com/ns/home"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+              >
+                구매하기
+              </a>
+            </Button>
+          </nav>
         </div>
       )}
     </header>
